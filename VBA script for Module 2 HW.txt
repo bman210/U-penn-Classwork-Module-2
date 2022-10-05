@@ -1,0 +1,145 @@
+Sub ticker():
+    Dim column As Integer
+    Dim i As Long
+    Dim lastrow As Long
+    Dim placement As Long
+    
+    placement = 2
+    column = 1
+    
+    lastrow = Cells(Rows.count, 1).End(xlUp).Row
+    
+        For i = 2 To lastrow
+        
+            If Cells(i + 1, column).Value <> Cells(i, column).Value Then
+                Cells(placement, 9).Value = Cells(i, column).Value
+                placement = placement + 1
+            End If
+        Next i
+        
+        
+End Sub
+
+Sub change():
+    Dim i As Long
+    Dim lastrow As Long
+    Dim placement As Long
+    Dim change As Double
+    
+    placement = 2
+    change = 0
+    
+    lastrow = Cells(Rows.count, 1).End(xlUp).Row
+    
+        For i = 2 To lastrow
+        
+            If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+                change = Cells(i, 6).Value - Cells(i - 250, 3).Value
+                Cells(placement, 10).Value = change
+                placement = placement + 1
+            End If
+        Next i
+            
+End Sub
+Sub percent():
+    Dim i As Long
+    Dim lastrow As Long
+    Dim placement As Long
+    Dim change As Double
+    
+    placement = 2
+    change = 0
+    
+    lastrow = Cells(Rows.count, 1).End(xlUp).Row
+    
+        For i = 2 To lastrow
+        
+            If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+                change = Cells(i, 6).Value - Cells(i - 250, 3).Value
+                change = (change / Cells(i - 250, 3).Value)
+                Cells(placement, 11).Value = change
+                placement = placement + 1
+            End If
+        Next i
+            
+End Sub
+Sub totalvolume():
+    
+    Dim i As Long
+    Dim lastrow As Long
+    Dim placement As Long
+    Dim count As Long
+    
+    placement = 2
+    amount = 0
+    
+    lastrow = Cells(Rows.count, 1).End(xlUp).Row
+    
+        For i = 2 To lastrow
+        
+            If Cells(i + 1, 1).Value = Cells(i, 1).Value Then
+                amount = amount + Cells(i, 7).Value
+            ElseIf Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+                amount = amount + Cells(i, 7).Value
+                Cells(placement, 12).Value = amount
+                placement = placement + 1
+                amount = 0
+            End If
+        Next i
+    
+End Sub
+Sub Greatest():
+    Dim high As Double
+    Dim ticker As Double
+
+    lastrow = Cells(Rows.count, 11).End(xlUp).Row
+    
+    high = WorksheetFunction.Max(Range("K2:K" & lastrow))
+    
+    ticker = WorksheetFunction.Match(high, Range("K2:K" & lastrow), 0)
+    
+    Cells(2, 15).Value = Cells(ticker + 1, 9).Value
+    
+    Cells(2, 16).Value = high
+    
+End Sub
+Sub Lowest():
+    Dim low As Double
+    Dim ticker As Double
+
+    lastrow = Cells(Rows.count, 11).End(xlUp).Row
+    
+    low = WorksheetFunction.Min(Range("K2:K" & lastrow))
+    
+    ticker = WorksheetFunction.Match(low, Range("K2:K" & lastrow), 0)
+    
+    Cells(3, 15).Value = Cells(ticker + 1, 9).Value
+    
+    Cells(3, 16).Value = low
+End Sub
+Sub totalvolume2():
+    Dim volcount As Double
+    Dim ticker As Double
+
+    lastrow = Cells(Rows.count, 12).End(xlUp).Row
+    
+    volcount = WorksheetFunction.Max(Range("L2:L" & lastrow))
+    
+    ticker = WorksheetFunction.Match(volcount, Range("L2:L" & lastrow), 0)
+    
+    Cells(4, 15).Value = Cells(ticker + 1, 9).Value
+    
+    Cells(4, 16).Value = volcount
+End Sub
+Sub Reset():
+    Dim i As Integer
+    Dim j As Integer
+    
+    For i = 2 To 101
+        For j = 1 To 3
+        Cells(i, j).Interior.ColorIndex = 2
+        Cells(i, j).Borders.Color = RGB(192, 192, 192)
+        Next j
+    Next i
+End Sub
+
